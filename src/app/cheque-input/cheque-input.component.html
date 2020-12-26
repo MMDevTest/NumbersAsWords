@@ -1,0 +1,9 @@
+<div *ngIf="cheque">
+  <label>
+      Cheque Amount:
+        <input type="number" [(ngModel)]="cheque.value"/>
+  </label>
+</div>
+
+
+<app-cheque-detail [cheque]=cheque></app-cheque-detail>
