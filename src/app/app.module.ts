@@ -15,7 +15,7 @@ import { ChequeDetailComponent } from './cheque-detail/cheque-detail.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

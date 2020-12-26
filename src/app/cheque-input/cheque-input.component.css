@@ -1,0 +1,12 @@
+
+
+/* right align our cheque values */
+input.cheque {
+  text-align: right;
+}
+
+/* Hide the spinners */
+input.cheque::-webkit-outer-spin-button,
+input.cheque::-webkit-inner-spin-button {
+  display: none;
+}

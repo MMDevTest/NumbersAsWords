@@ -19,9 +19,12 @@ export class ChequeService {
     let dollarArray: number[] = num != 0 ? this.IntAsArray(Math.trunc(num)) : [];
 
     // Get our cents array
-    let cents: number = Math.round((num - Math.trunc(num)) * 100);
-    let centsArray: number[] = cents != 0 ? this.IntAsArray(cents) : [];
-    return this.formatNumArrayAsWords(dollarArray) + " dollars and " + this.formatNumArrayAsWords(centsArray)  + " cents";
+    let centVal: number = Math.round((num - Math.trunc(num)) * 100);
+    let centsArray: number[] = centVal != 0 ? this.IntAsArray(centVal) : [];
+
+    let dollars: string = this.formatNumArrayAsWords(dollarArray);
+    let cents: string   = this.formatNumArrayAsWords(centsArray);
+    return dollars + (dollars ? ' dollars ' : '' ) + (dollars && cents ? ' and ' : '' ) + cents + (cents ? ' cents ' : '');
 
     // return dollarArray.join('') + " Dollars and " + centsArray.join('') + " cents";
   }
@@ -39,7 +42,7 @@ export class ChequeService {
     For this conversion, we are using three arrays,
       oneToTeenArr - Numbers 1 to 19, with a spacer for 0.
       tenArr - Tens units - twenty, thirty, ..., ninety; with two spacers for "naughties" 0-9 and the "teens" 10-19
-      largeUnitArr - Orders of magnitude(?) - Thousand, ..., Quadrillion,  with a spacer for hundred
+      largeUnitArr - Orders of magnitude(?) - Thousand, ..., Trillion,  with a spacer for hundred
         - Hundred doesn't nicely fit how LargeUnits, as we just plop it in when there is any number in the hundreds position, so it is left out to avoid confusion
     We are using spacers so we can easily fetch the word without much mucking around, i.e tens(3) returns 'thirty', instead of needing to call tens(3-1)
   */
@@ -54,7 +57,7 @@ export class ChequeService {
     let tenArr: string[] =
       ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
     let largeUnitArr: string[] =
-      ['', 'thousand', 'million', 'billion', 'trillion', 'quadrillion'];
+      ['', 'thousand', 'million', 'billion', 'trillion'];
 
     // reverse our input so we can start from the smallest group
     let tempArray: number[] = numArray.reverse();
@@ -73,7 +76,7 @@ export class ChequeService {
       let hundred = workingArray[2] ? oneToTeenArr[workingArray[2]] + ' hundred ' : '';
 
 
-      let tempString = hundred && (tens || oneToTeens) ? hundred + ' and ' + tens + ' ' + oneToTeens :hundred + ' ' + tens + ' ' + oneToTeens;
+      let tempString = hundred && (tens || oneToTeens) ? hundred + ' and ' + tens + ' ' + oneToTeens : hundred + ' ' + tens + ' ' + oneToTeens;
       let largeUnit = largeUnitArr[i/chunk] || '';
       tempString = tempString.trim() ? tempString + ' ' + largeUnit : '';
       retString = tempString.trim() + ' ' + retString;
