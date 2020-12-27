@@ -11,7 +11,6 @@ import { Router } from "@angular/router";
 export class ChequeListComponent implements OnInit {
 
   chequeList : Cheque[] = [];
-  SelectedCheque : Cheque | undefined;
 
   getCheques(): void {
     this.chequeService.getChequeList().subscribe(chequeList => this.chequeList = chequeList)
@@ -19,10 +18,6 @@ export class ChequeListComponent implements OnInit {
 
   constructor(private chequeService : ChequeService, private router : Router) {
 
-  }
-
-  clickCheque(cheque : Cheque){
-    this.SelectedCheque = this.SelectedCheque == cheque ? undefined : cheque;
   }
 
   addCheque() {

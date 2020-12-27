@@ -1,9 +1,9 @@
-<button (click)="addCheque()">Add</button>
 
-<div class="list">
+
+<ul class="cheque">
   <li *ngFor="let cheque of chequeList">
-    <a routerLink="/cheque/{{cheque.id}}"><span (click)="clickCheque(cheque)"> ID: {{cheque.id}} | Value:
-        {{cheque.value | currency}} </span></a>
-    <span (click)="deleteCheque(cheque)">X</span>
+    <a routerLink="/cheque/{{cheque.id}}"><span class="circle">{{cheque.id}}</span>{{cheque.value | currency}}</a>
+    <button class="delete" (click)="deleteCheque(cheque)">X</button>
   </li>
-</div>
+  <button (click)="addCheque()">Add Cheque</button>
+</ul>

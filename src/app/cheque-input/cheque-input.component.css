@@ -10,3 +10,12 @@ input.cheque::-webkit-outer-spin-button,
 input.cheque::-webkit-inner-spin-button {
   display: none;
 }
+
+.cheque {
+  background-color: rgb(245, 240, 240);
+  margin: 0.5em;
+  border-radius: 4px;
+  padding: 0;
+  width: 15em;
+}
+

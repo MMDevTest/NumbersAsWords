@@ -1,17 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
 h1 {
-  color: rgb(87, 51, 153);
-  font-size: 250%;
+  color: rgb(150, 88, 88);
+  font-size: 200%;
 }
 h2, h3 {
-  color: #444;
+  color: rgb(150, 88, 88);
+  font-size: 150%;
   font-weight: lighter;
 }
 body {
   margin: 2em;
 }
 body, input[text], button {
-  color: #333;
+  color: rgb(150, 88, 88);
   font-family: Cambria, Georgia;
 }
 

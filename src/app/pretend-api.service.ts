@@ -14,7 +14,6 @@ export class PretendAPIService implements InMemoryDbService{
       {id: 2, value: 501},
       {id: 3, value: 100000000},
       {id: 4, value: 981234},
-      {id: 5, value: -5},
 
     ];
     return {cheques};
