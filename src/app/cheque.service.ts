@@ -9,21 +9,35 @@ export class ChequeService {
   constructor() { }
 
   cheque: Cheque = { value: 0 };
+
+  /* max and min cheque values this service handles */
+  min: number = 0;
+  max: number = 10000000000000; /* 10 trillion should be plenty - capped at this to avoid floating point precision issues */
+
+  chequeMinMax(val : number){
+    this.cheque.value = Math.min(Math.max(val,this.min),this.max)
+    return this.cheque.value;
+  }
+
   get chequeText() {
-    return this.FormatChequeAsWords(this.cheque.value);
+    /* re-running chequeMinMax prevents incorrect string appearing, when entering > max values in components */
+    return this.FormatChequeAsWords(this.chequeMinMax(this.cheque.value));
   }
 
   FormatChequeAsWords(num: number) {
 
+
+
     // Get our dollar array
-    let dollarArray: number[] = num != 0 ? this.IntAsArray(Math.trunc(num)) : [];
+    let dollarArray: number[] = this.IntAsArray(Math.trunc(num));
 
     // Get our cents array
     let centVal: number = Math.round((num - Math.trunc(num)) * 100);
-    let centsArray: number[] = centVal != 0 ? this.IntAsArray(centVal) : [];
+    let centsArray: number[] = this.IntAsArray(centVal);
 
     let dollars: string = this.formatNumArrayAsWords(dollarArray);
     let cents: string   = this.formatNumArrayAsWords(centsArray);
+
     return dollars + (dollars ? ' dollars ' : '' ) + (dollars && cents ? ' and ' : '' ) + cents + (cents ? ' cents ' : '');
 
     // return dollarArray.join('') + " Dollars and " + centsArray.join('') + " cents";
@@ -37,7 +51,6 @@ export class ChequeService {
 
   }
 
-
   /*
     For this conversion, we are using three arrays,
       oneToTeenArr - Numbers 1 to 19, with a spacer for 0.
@@ -49,7 +62,7 @@ export class ChequeService {
   formatNumArrayAsWords(numArray: number[]) {
 
     let chunk: number = 3;
-    let retString: string = '';
+    // let retString: string = '';
 
     let oneToTeenArr: string[] =
       ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine',
@@ -60,28 +73,38 @@ export class ChequeService {
       ['', 'thousand', 'million', 'billion', 'trillion'];
 
     // reverse our input so we can start from the smallest group
-    let tempArray: number[] = numArray.reverse();
-
-
+    numArray.reverse();
+    let stringArr : string[][] = [];
 
     /* loop over array in chunks, and build our string */
-    for(let i = 0; i < tempArray.length; i += chunk){
-      let workingArray : number[] = tempArray.slice(i, i+chunk);
+    for(let i = 0; i < numArray.length; i += chunk){
 
+      let workArr : number[] = numArray.slice(i, i+chunk);
+      /* Hundreds, Teens/Tens, Thousands - We combine Teens and Tens with a join, as we don't need to put an AND between them */
+      stringArr[i] =  [workArr[2] ? oneToTeenArr[workArr[2]] + ' hundred' : '',
+                      [tenArr[workArr[1]] && tenArr[workArr[1]] || '', oneToTeenArr[(10*workArr[1]) + workArr[0]] || oneToTeenArr[workArr[0]]].join(' ').trim()]
+      stringArr[i][2] = stringArr[i].join('') ? largeUnitArr[i/chunk] || '' : '';
 
-
-      console.log(i/chunk + " - " + workingArray + "-" + workingArray[2])
-      let oneToTeens = oneToTeenArr[(10*workingArray[1]) + workingArray[0]] || oneToTeenArr[workingArray[0]];
-      let tens = tenArr[workingArray[1]] && tenArr[workingArray[1]] || '';
-      let hundred = workingArray[2] ? oneToTeenArr[workingArray[2]] + ' hundred ' : '';
-
-
-      let tempString = hundred && (tens || oneToTeens) ? hundred + ' and ' + tens + ' ' + oneToTeens : hundred + ' ' + tens + ' ' + oneToTeens;
-      let largeUnit = largeUnitArr[i/chunk] || '';
-      tempString = tempString.trim() ? tempString + ' ' + largeUnit : '';
-      retString = tempString.trim() + ' ' + retString;
+      /* if we have hundreds AND tens/teens, then pop an AND into the hundreds cell */
+      if (stringArr[i][0] && stringArr[i][1]) stringArr[i][0] += ' and';
     }
-    return retString.trim();
+
+    /* reverse our built string array to put it into the correct order */
+    stringArr.reverse();
+
+    /* pop our smallest(now last) chunk so we can add an AND in front if necessary */
+    let lastItem : string[] = stringArr.pop() as string[];
+
+    /* if we have hundreds or thousands in our lastItem, add it back into the array, and empty out our lastItem */
+    if(lastItem && lastItem[0] != '' || lastItem[2] != '') {
+      stringArr.push(lastItem);
+      lastItem = ['']
+    }
+    /* squish our string chunks together, filtering out blanks so we don't get double spaces */
+    let returnString : string = stringArr.map(itm => itm.filter(chldItm => chldItm != '').join(' ')).join(' ');
+    returnString = [returnString,lastItem.join('')].filter(Boolean).join(' and ');
+    return returnString.trim();
+
 
   }
 

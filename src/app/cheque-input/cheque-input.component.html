@@ -1,8 +1,8 @@
 <div *ngIf="cheque">
   <h1>ChequeBuilder 3000</h1>
   <label>
-      Cheque Amount:
-        <input class="cheque" type="number" [min]="min" [max]="max"  [(ngModel)]="cheque.value" (keyup)="checkMinMax(cheque.value)"/>
+      Cheque Amount: $
+        <input class="cheque" type="number" step=0.01 [min]="chequeService.min" [max]="chequeService.max"  [(ngModel)]="cheque.value" (keyup)="chequeService.chequeMinMax(cheque.value)"/>
   </label>
   <app-cheque-detail [cheque]=cheque></app-cheque-detail>
 </div>
