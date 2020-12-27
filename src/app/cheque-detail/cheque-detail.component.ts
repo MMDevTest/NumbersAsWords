@@ -9,10 +9,10 @@ import { ChequeService } from "../cheque.service" ;
 })
 export class ChequeDetailComponent implements OnInit {
 
-  @Input() cheque!: Cheque;
+  @Input() cheque: Cheque | undefined;
 
   get chequeText(){
-    return this.chequeService.chequeText;
+    return this.chequeService.getChequeText((this.cheque as Cheque).value);
   }
 
   constructor(private chequeService: ChequeService) { }

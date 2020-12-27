@@ -1,5 +1,4 @@
-import { DecimalPipe } from "@angular/common";
-
 export interface Cheque {
+  id: number,
   value: number
 }
