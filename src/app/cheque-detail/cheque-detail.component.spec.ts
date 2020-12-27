@@ -1,4 +1,6 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ChequeService } from '../cheque.service';
 
 import { ChequeDetailComponent } from './cheque-detail.component';
 
@@ -8,7 +10,9 @@ describe('ChequeDetailComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ChequeDetailComponent ]
+      declarations: [ ChequeDetailComponent ],
+      providers:[ChequeService],
+      imports: [ HttpClientTestingModule ],
     })
     .compileComponents();
   });

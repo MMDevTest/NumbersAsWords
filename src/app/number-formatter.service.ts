@@ -68,7 +68,7 @@ export class NumberFormatterService {
       lastItem = ['']
     }
     /* squish our string chunks together, filtering out blanks so we don't get double spaces */
-    let returnString : string = stringArr.map(itm => itm.filter(chldItm => chldItm != '').join(' ')).join(' ');
+    let returnString : string = stringArr.map(itm => itm.filter(Boolean).join(' ')).filter(Boolean).join(' ');
     returnString = [returnString,lastItem.join('')].filter(Boolean).join(' and ');
     return returnString.trim();
 

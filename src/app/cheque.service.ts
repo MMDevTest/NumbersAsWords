@@ -57,6 +57,7 @@ export class ChequeService {
   }
 
   FormatChequeAsWords(num: number) {
+
     // Get our dollar array
     let dollarVal: number = Math.trunc(num);
     let dollarArray: number[] = this.numberFormatter.IntAsArray(dollarVal);
@@ -68,7 +69,7 @@ export class ChequeService {
     let dollars: string = this.numberFormatter.formatNumArrayAsWords(dollarArray);
     let cents: string   = this.numberFormatter.formatNumArrayAsWords(centsArray);
 
-    return dollars + (dollars ? ` dollar${dollarVal == 1 ? '' : 's'} ` : '' ) + (dollars && cents ? ' and ' : '' ) + cents + (cents ? ` cent${centVal == 1 ? '' : 's'} ` : '');
+    return [dollars + (dollars ? ` dollar${dollarVal == 1 ? '' : 's'}` : '' ), cents + (cents ? ` cent${centVal == 1 ? '' : 's'}` : '')].filter(Boolean).join(' and ');
   }
 
 

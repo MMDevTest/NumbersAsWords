@@ -22,7 +22,6 @@ import { PretendAPIService } from './pretend-api.service';
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-
     // Simulate a backend with HttpClientInMemoryWebAPIModule
     // Replace later with real requests
     HttpClientInMemoryWebApiModule.forRoot(

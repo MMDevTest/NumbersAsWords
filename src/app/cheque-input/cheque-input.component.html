@@ -2,10 +2,10 @@
   <h2>Cheque: {{cheque.id}}</h2>
   <div>
     Cheque Amount: $
-    <input x type="number" step=0.01 [min]="chequeService.min" [max]="chequeService.max"  [(ngModel)]="cheque.value" (keyup)="cheque.value = chequeService.chequeMinMax(cheque.value)"/>
+    <input class="cheque" type="number" step=0.01 [min]="chequeService.min" [max]="chequeService.max"  [(ngModel)]="cheque.value" (keyup)="cheque.value = chequeService.chequeMinMax(cheque.value)"/>
   </div>
   <br>
-  <app-cheque-detail [cheque]=cheque></app-cheque-detail>
+  <app-cheque-detail [cheque]="cheque"></app-cheque-detail>
   <br>
   <button (click)="updateCheque()">Save</button>
   <button (click)="back()">Back</button>
