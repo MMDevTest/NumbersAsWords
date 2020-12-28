@@ -47,7 +47,7 @@ export class NumberFormatterService {
     for(let i = 0; i < numArray.length; i += chunk){
 
       let workArr : number[] = numArray.slice(i, i+chunk);
-      /* Hundreds, Teens/Tens, Thousands - We combine Teens and Tens with a join, as we don't need to put an AND between them */
+      /* Hundreds, Teens/Tens, Thousands - We combine Teens and Tens with a join, as we don't need to put an AND between them - filtering out blanks so we don't get double spaces*/
       stringArr[i] =  [workArr[2] ? oneToTeenArr[workArr[2]] + ' hundred' : '',
                       [tenArr[workArr[1]] && tenArr[workArr[1]] || '', oneToTeenArr[(10*workArr[1]) + workArr[0]] || oneToTeenArr[workArr[0]]].join(' ').trim()]
       stringArr[i][2] = stringArr[i].join('') ? largeUnitArr[i/chunk] || '' : '';
@@ -67,6 +67,7 @@ export class NumberFormatterService {
       stringArr.push(lastItem);
       lastItem = ['']
     }
+
     /* squish our string chunks together, filtering out blanks so we don't get double spaces */
     let returnString : string = stringArr.map(itm => itm.filter(Boolean).join(' ')).filter(Boolean).join(' ');
     returnString = [returnString,lastItem.join('')].filter(Boolean).join(' and ');

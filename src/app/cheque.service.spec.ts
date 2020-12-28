@@ -57,8 +57,8 @@ describe('ChequeService', () => {
   });
 
   //hundred AND
-  it('should format $1.36', () =>{
-    expect(service.getChequeText(1.36)).toEqual("one dollar and thirty six cents")
+  it('should format $125', () =>{
+    expect(service.getChequeText(125)).toEqual("one hundred and twenty five dollars")
   });
   //chained AND
   it('should format $1000001', () =>{
